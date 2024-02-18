@@ -1,9 +1,9 @@
 import { DynamoDBClient, ScanCommand } from "@aws-sdk/client-dynamodb";
 import { unmarshall } from "@aws-sdk/util-dynamodb";
 
-const dynamoDbClient = new DynamoDBClient({ region: "us-east-1" });
+const dynamoDbClient = new DynamoDBClient({ region: "us-east-2" });
 
-exports.handler = async (event) => {
+export async function handler(event) {
   const tableName = "coachInfoTable";
 
   try {
@@ -51,4 +51,4 @@ exports.handler = async (event) => {
       },
     };
   }
-};
+}
