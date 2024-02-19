@@ -1,32 +1,45 @@
-// src/context/SelectedCoachContext.tsx
-import React, { createContext, useContext, useState, ReactNode } from 'react';
+// src/context/CoachesContext.tsx
+import React, { createContext, useContext, useState, useEffect, ReactNode } from 'react';
+import { fetchCoaches } from '../services/coachServices';
 
 interface CoachInfo {
-    id: number;
     name: string;
+    coachId: string;
+    availability: Array<{
+        date: string;
+        timeSlots: string[];
+    }>;
 }
 
-interface SelectedCoachContextType {
-    coachInfo: CoachInfo | null;
-    setCoachInfo: (info: CoachInfo | null) => void;
+interface CoachesContextType {
+    coaches: CoachInfo[] | null;
 }
 
-const SelectedCoachContext = createContext<SelectedCoachContextType | undefined>(undefined);
+const CoachesContext = createContext<CoachesContextType | undefined>(undefined);
 
-export const SelectedCoachProvider: React.FC<{ children: ReactNode }> = ({ children }) => {
-    const [coachInfo, setCoachInfo] = useState<CoachInfo | null>(null);
+export const CoachesProvider: React.FC<{ children: ReactNode }> = ({ children }) => {
+    const [coaches, setCoaches] = useState<CoachInfo[] | null>(null);
+
+    useEffect(() => {
+        const initializeCoaches = async () => {
+            const fetchedCoaches = await fetchCoaches();
+            setCoaches(fetchedCoaches);
+        };
+
+        initializeCoaches();
+    }, []);
 
     return (
-        <SelectedCoachContext.Provider value={{ coachInfo, setCoachInfo }}>
+        <CoachesContext.Provider value={{ coaches }}>
             {children}
-        </SelectedCoachContext.Provider>
+        </CoachesContext.Provider>
     );
 };
 
-export const useSelectedCoach = () => {
-    const context = useContext(SelectedCoachContext);
+export const useCoaches = () => {
+    const context = useContext(CoachesContext);
     if (context === undefined) {
-        throw new Error('useSelectedCoach must be used within a SelectedCoachProvider');
+        throw new Error('useCoaches must be used within a CoachesProvider');
     }
     return context;
 };

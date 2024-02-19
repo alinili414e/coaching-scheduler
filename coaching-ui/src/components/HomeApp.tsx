@@ -1,7 +1,7 @@
 // src/components/CoachApp.tsx
 import React from 'react';
 import { Routes, Route } from 'react-router-dom';
-import { SelectedCoachProvider } from '../context/SelectedCoachContext';
+import { CoachesProvider } from '../context/SelectedCoachContext';
 import CoachHome from './CoachHome';
 import { StudentProvider } from '../context/SelectedStudentContext';
 import StudentHome from './StudentHome';
@@ -9,12 +9,12 @@ import AddAvailability from './AddAvailability';
 // Import other coach-specific components
 
 export const CoachApp = () => (
-    <SelectedCoachProvider>
+    <CoachesProvider>
         <Routes>
             <Route path="/" element={<CoachHome />} />
             <Route path="/add-availability" element={<AddAvailability />} />
         </Routes>
-    </SelectedCoachProvider>
+    </CoachesProvider>
 );
 
 
