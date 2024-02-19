@@ -1,7 +1,7 @@
 // src/components/CoachApp.tsx
 import React from 'react';
 import { Routes, Route } from 'react-router-dom';
-import { CoachesProvider } from '../context/SelectedCoachContext';
+import { CoachesProvider } from '../context/CoachContext';
 import CoachHome from './CoachHome';
 import { StudentProvider } from '../context/SelectedStudentContext';
 import StudentHome from './StudentHome';

@@ -1,4 +1,4 @@
-// src/context/CoachesContext.tsx
+// src/context/CoachesContext.tsx (Adjusted Example)
 import React, { createContext, useContext, useState, useEffect, ReactNode } from 'react';
 import { fetchCoaches } from '../services/coachServices';
 
@@ -13,12 +13,15 @@ interface CoachInfo {
 
 interface CoachesContextType {
     coaches: CoachInfo[] | null;
+    selectedCoach: CoachInfo | null;
+    setSelectedCoach: (coach: CoachInfo | null) => void;
 }
 
 const CoachesContext = createContext<CoachesContextType | undefined>(undefined);
 
 export const CoachesProvider: React.FC<{ children: ReactNode }> = ({ children }) => {
     const [coaches, setCoaches] = useState<CoachInfo[] | null>(null);
+    const [selectedCoach, setSelectedCoach] = useState<CoachInfo | null>(null);
 
     useEffect(() => {
         const initializeCoaches = async () => {
@@ -30,7 +33,7 @@ export const CoachesProvider: React.FC<{ children: ReactNode }> = ({ children })
     }, []);
 
     return (
-        <CoachesContext.Provider value={{ coaches }}>
+        <CoachesContext.Provider value={{ coaches, selectedCoach, setSelectedCoach }}>
             {children}
         </CoachesContext.Provider>
     );
